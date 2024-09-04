@@ -1,17 +1,10 @@
 import React from "react";
 
-interface CartCountBadgeProps {
-  size: string;
-  count: number; // Add this line
-}
-
-const CartCountBadge: React.FC<CartCountBadgeProps> = ({ size, count }) => {
+const CartCountBadge: React.FC<{ count: number }> = ({ count }) => {
   return (
-    <div
-      className={`absolute bg-red-600 text-white text-[14px] ${size} -right-3 -top-1 rounded-full grid place-items-center`}
-    >
+    <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 bg-red-600 text-white text-xs font-bold rounded-full">
       {count}
-    </div>
+    </span>
   );
 };
 

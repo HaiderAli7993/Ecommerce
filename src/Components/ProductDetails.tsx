@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-interface ProductDetailsProps {
-  addToCart: (product: any) => void;
-}
-
-const ProductDetails: React.FC<ProductDetailsProps> = ({ addToCart }) => {
+const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<any>(null);
 
@@ -21,6 +17,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ addToCart }) => {
 
   if (!product) return <div>Loading...</div>;
 
+  const addToCart = () => {
+    // You would typically handle the logic to add the item to the cart here
+    console.log("Added to cart:", product);
+  };
+
   return (
     <div className="container mx-auto mt-8">
       <div className="flex flex-col lg:flex-row gap-8">
@@ -34,8 +35,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ addToCart }) => {
           <p className="text-xl text-gray-700 mb-4">${product.price}</p>
           <p className="text-lg text-gray-600 mb-6">{product.description}</p>
           <button
+            onClick={addToCart}
             className="bg-accent text-white px-4 py-2 rounded hover:bg-accentDark transition-colors duration-200"
-            onClick={() => addToCart(product)}
           >
             Add to Cart
           </button>

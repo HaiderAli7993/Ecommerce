@@ -1,22 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  quantity?: number;
-}
+const CartPage: React.FC = () => {
+  const [cartItems, setCartItems] = useState<any[]>([
+    // Example item; normally you would fetch this from state or context
+    {
+      id: 1,
+      title: "Product Title",
+      price: 29.99,
+      image: "https://example.com/image.jpg",
+      quantity: 1,
+    },
+  ]);
 
-interface CartPageProps {
-  cartItems: Product[];
-  updateQuantity: (id: number, quantity: number) => void;
-}
+  const updateQuantity = (id: number, quantity: number) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + quantity } : item
+      )
+    );
+  };
 
-const CartPage: React.FC<CartPageProps> = ({ cartItems, updateQuantity }) => {
   const calculateTotal = () => {
     return cartItems.reduce(
-      (total, item) => total + item.price * (item.quantity || 1),
+      (total, item) => total + item.price * item.quantity,
       0
     );
   };
@@ -36,9 +42,19 @@ const CartPage: React.FC<CartPageProps> = ({ cartItems, updateQuantity }) => {
               <h3 className="text-xl font-semibold">{item.title}</h3>
               <p>${item.price}</p>
               <div className="flex items-center mt-2">
-                <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                <button
+                  onClick={() => updateQuantity(item.id, -1)}
+                  className="px-2 py-1 border rounded"
+                >
+                  -
+                </button>
                 <span className="mx-2">{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                <button
+                  onClick={() => updateQuantity(item.id, 1)}
+                  className="px-2 py-1 border rounded"
+                >
+                  +
+                </button>
               </div>
             </div>
           </div>
