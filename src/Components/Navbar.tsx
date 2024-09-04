@@ -12,7 +12,7 @@ const Navbar: React.FC<{ onSearch: (searchQuery: string) => void }> = ({
   return (
     <nav className="bg-accent text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-3xl font-bold">elo </h1>
+        <h1 className="text-3xl font-bold">ShopLogo</h1>
         <SearchBar onSearch={onSearch} />
         <div className="relative">
           <div
