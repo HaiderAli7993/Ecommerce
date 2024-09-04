@@ -1,24 +1,32 @@
-import React from "react";
-import { CiSearch } from "react-icons/ci";
+import React, { useState } from "react";
 
-interface SearchBarProps {
-  onSearch: (searchQuery: string) => void;
-}
+const SearchBar: React.FC<{ onSearch: (searchQuery: string) => void }> = ({
+  onSearch,
+}) => {
+  const [query, setQuery] = useState("");
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSearch(query);
+  };
+
   return (
-    <div className="relative w-full max-w-[500px]">
+    <form onSubmit={handleSubmit} className="flex items-center">
       <input
-        className="bg-[#f2f3f5] border-none outline-none px-6 py-3 rounded-[30px] w-full"
         type="text"
-        placeholder="Search Product..."
-        onChange={(e) => onSearch(e.target.value)}
+        value={query}
+        onChange={handleChange}
+        placeholder="Search..."
+        className="p-2 rounded"
       />
-      <CiSearch
-        className="absolute top-0 right-0 mt-4 mr-5 text-gray-500"
-        size={20}
-      />
-    </div>
+      <button type="submit" className="ml-2 p-2 bg-white text-accent rounded">
+        Search
+      </button>
+    </form>
   );
 };
 

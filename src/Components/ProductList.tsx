@@ -3,9 +3,13 @@ import ProductCard from "./ProductCard";
 
 interface ProductListProps {
   searchQuery: string;
+  addToCart: (product: any) => void;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ searchQuery }) => {
+const ProductList: React.FC<ProductListProps> = ({
+  searchQuery,
+  addToCart,
+}) => {
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -27,9 +31,11 @@ const ProductList: React.FC<ProductListProps> = ({ searchQuery }) => {
       {filteredProducts.map((product) => (
         <ProductCard
           key={product.id}
+          id={product.id}
           title={product.title}
           price={product.price}
           image={product.image}
+          addToCart={addToCart}
         />
       ))}
     </div>

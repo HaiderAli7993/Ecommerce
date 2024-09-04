@@ -4,15 +4,18 @@ import { CiShoppingCart } from "react-icons/ci";
 import CartCountBadge from "./CartCountBadge";
 import SearchBar from "./SearchBar";
 
-const Navbar: React.FC<{ onSearch: (searchQuery: string) => void }> = ({
-  onSearch,
-}) => {
+interface NavbarProps {
+  onSearch: (searchQuery: string) => void;
+  cartCount: number;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onSearch, cartCount }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <nav className="bg-accent text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-3xl font-bold">ShopLogo</h1>
+        <h1 className="text-3xl font-bold">Elo Buy</h1>
         <SearchBar onSearch={onSearch} />
         <div className="relative">
           <div
@@ -34,7 +37,7 @@ const Navbar: React.FC<{ onSearch: (searchQuery: string) => void }> = ({
         </div>
         <div className="relative ml-6">
           <CiShoppingCart size={24} />
-          <CartCountBadge size="w-[20px] h-[20px]" />
+          <CartCountBadge size="w-[20px] h-[20px]" count={cartCount} />
         </div>
       </div>
     </nav>

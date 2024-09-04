@@ -1,46 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-interface ProductDetailProps {
-  // You can also use TypeScript interfaces to define the product data shape.
+interface ProductDetailsProps {
+  addToCart: (product: any) => void;
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = () => {
+const ProductDetails: React.FC<ProductDetailsProps> = ({ addToCart }) => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<any>(null);
 
   useEffect(() => {
-    // Fetch product data from an API or a mock data source
-    fetch(`https://fakeapi.com/products/${id}`)
-      .then((response) => response.json())
-      .then((data) => setProduct(data))
-      .catch((error) => console.error("Error fetching product data:", error));
+    const fetchProduct = async () => {
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+      const data = await response.json();
+      setProduct(data);
+    };
+
+    fetchProduct();
   }, [id]);
 
-  if (!product) return <p>Loading...</p>;
+  if (!product) return <div>Loading...</div>;
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex flex-col lg:flex-row">
+    <div className="container mx-auto mt-8">
+      <div className="flex flex-col lg:flex-row gap-8">
         <img
-          className="w-full lg:w-1/2 object-cover rounded-lg"
+          className="w-full lg:w-1/2 h-auto object-cover rounded"
           src={product.image}
           alt={product.title}
         />
-        <div className="lg:ml-6">
+        <div className="flex flex-col justify-center">
           <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
-          <p className="text-gray-700 text-xl mb-4">${product.price}</p>
-          <p className="text-gray-600 mb-4">{product.description}</p>
-          <div className="flex gap-4 mb-4">
-            {product.colors.map((color: string) => (
-              <button
-                key={color}
-                className={`w-8 h-8 rounded-full`}
-                style={{ backgroundColor: color }}
-              />
-            ))}
-          </div>
-          <button className="bg-accent text-white px-6 py-3 rounded hover:bg-accentDark transition-colors duration-200">
+          <p className="text-xl text-gray-700 mb-4">${product.price}</p>
+          <p className="text-lg text-gray-600 mb-6">{product.description}</p>
+          <button
+            className="bg-accent text-white px-4 py-2 rounded hover:bg-accentDark transition-colors duration-200"
+            onClick={() => addToCart(product)}
+          >
             Add to Cart
           </button>
         </div>
@@ -49,4 +45,4 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetails;
